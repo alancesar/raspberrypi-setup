@@ -1,0 +1,24 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+- Media:
+  - OpenMediaVault:
+      icon: si-openmediavault
+      href: http://raspberrypi.local:8090
+      description: OpenMediaVault is the next generation network attached storage (NAS) solution based on Debian Linux
+      widget:
+        type: openmediavault
+        url: http://<<raspberry-pi-ip>>:8090
+        username: admin
+        password: openmediavault
+        method: services.getStatus
+
+
+- Tools:
+  - Portainer:
+      icon: si-docker
+      href: https://raspberrypi.local:9443
+      description: A container management software to deploy, troubleshoot, and secure applications across cloud, datacenter, and Industrial IoT use cases
+      server: localhost
+      container: portainer

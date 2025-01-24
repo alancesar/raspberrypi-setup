@@ -1,0 +1,21 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/bookmarks
+
+- Entertainment:
+    - Threads:
+        - icon: si-threads
+          href: https://www.threads.net/@alanzao
+    - Instagram:
+        - icon: si-instagram
+          href: https://www.instagram.com/alanzao/
+
+- Developer:
+    - Github:
+        - icon: si-github
+          href: https://github.com/alancesar
+
+- Social:
+    - LinkedIn:
+        - icon: si-linkedin
+          href: https://www.linkedin.com/in/alancesar/

@@ -1,0 +1,23 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/info-widgets/
+
+- resources:
+    label: Resources
+    cpu: true
+    cputemp: true
+    memory: true
+    tempmin: 0
+    tempmax: 100
+    uptime: true
+
+- resources:
+    expanded: true
+    label: Storage
+    disk:
+      - /
+      - /data
+
+- search:
+    provider: duckduckgo
+    target: _blank
