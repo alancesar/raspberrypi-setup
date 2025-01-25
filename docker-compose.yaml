@@ -90,7 +90,7 @@ services:
     labels:
       - homepage.group=Tools
       - homepage.name=AdGuard Home
-      - homepage.icon=si-docker
+      - homepage.icon=si-adguard
       - homepage.href=http://raspberrypi.local:8080
       - homepage.description=AdGuard eliminates ads, tracking, and malware
 
