@@ -1,4 +1,7 @@
+version: "3.8"
+
 services:
+  # Homepage
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
@@ -11,6 +14,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
 
+  # PostgreSQL
   postgres:
     image: postgres:17.2
     container_name: postgres
@@ -25,6 +29,7 @@ services:
       - postgres_network
     restart: unless-stopped
 
+  # pgAdmin
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -42,8 +47,9 @@ services:
       - homepage.name=pgAdmin Home
       - homepage.icon=si-postgresql
       - homepage.href=http://raspberrypi.local:8081
-      - homepage.description=The most popular and feature rich Open Source administration and development platform for PostgreSQL
+      - homepage.description=The most popular and feature-rich Open Source administration and development platform for PostgreSQL
 
+  # RabbitMQ
   rabbitmq:
     image: rabbitmq:4.0-management
     container_name: rabbitmq
@@ -52,17 +58,18 @@ services:
       RABBITMQ_DEFAULT_USER: ${USERNAME}
       RABBITMQ_DEFAULT_PASS: ${PASSWORD}
       RABBITMQ_DEFAULT_VHOST: /
-    restart: unless-stopped
     ports:
       - "15672:15672"
       - "5672:5672"
+    restart: unless-stopped
     labels:
       - homepage.group=Tools
       - homepage.name=RabbitMQ
       - homepage.icon=si-rabbitmq
       - homepage.href=http://raspberrypi.local:15672
-      - homepage.description=RabbitMQ is a reliable and mature messaging and streaming broker, which is easy to deploy on cloud environments, on-premises, and on your local machine
+      - homepage.description=Reliable and mature messaging and streaming broker
 
+  # AdGuard Home
   adguard:
     image: adguard/adguardhome
     container_name: adguard
@@ -87,8 +94,9 @@ services:
       - homepage.name=AdGuard Home
       - homepage.icon=si-docker
       - homepage.href=http://raspberrypi.local:8080
-      - homepage.description=AdGuard is the best way to get rid of annoying ads and online tracking and protect your computer from malware. Make your web surfing fast, safe and ad-free
+      - homepage.description=AdGuard eliminates ads, tracking, and malware
 
+  # Plex
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
@@ -108,8 +116,9 @@ services:
       - homepage.name=Plex
       - homepage.icon=si-plex
       - homepage.href=http://raspberrypi.local:32400/web/index.html
-      - homepage.description=Plex can enable the best streaming devices available to serve your content anywhere
+      - homepage.description=Plex enables streaming your content anywhere
 
+  # Transmission
   transmission:
     image: lscr.io/linuxserver/transmission:latest
     container_name: transmission
@@ -120,24 +129,23 @@ services:
       - TZ=America/Sao_Paulo
       - USER=${USERNAME}
       - PASS=${PASSWORD}
-    volumes:
-      - ${APPS}/transmission/config:/config
-      - ${DATA}/Downloads:/downloads
-      - ${DATA}/Downloads/torrents:/watch
     ports:
       - "9091:9091"
       - "51413:51413"
       - "51413:51413/udp"
+    volumes:
+      - ${APPS}/transmission/config:/config
+      - ${DATA}/Downloads:/downloads
+      - ${DATA}/Downloads/torrents:/watch
     restart: unless-stopped
     labels:
       - homepage.group=Media
       - homepage.name=Transmission
       - homepage.icon=si-transmission
       - homepage.href=http://raspberrypi.local:9091
-      - homepage.description=Transmission is a fast, easy, and free BitTorrent client
+      - homepage.description=Fast, easy, and free BitTorrent client
 
 volumes:
-  portainer_data:
   postgres_data:
 
 networks:
