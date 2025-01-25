@@ -79,8 +79,8 @@ services:
       - "5443:5443/tcp"
       - "5443:5443/udp"
     volumes:
-      - ${APP}/adguardhome/work:/opt/adguardhome/work
-      - ${APP}/adguardhome/conf:/opt/adguardhome/conf
+      - ${APPS}/adguardhome/work:/opt/adguardhome/work
+      - ${APPS}/adguardhome/conf:/opt/adguardhome/conf
     restart: unless-stopped
     labels:
       - homepage.group=Tools
@@ -120,7 +120,7 @@ services:
       - USER=${USERNAME}
       - PASS=${PASSWORD}
     volumes:
-      - ${APP}/transmission/config:/config
+      - ${APPS}/transmission/config:/config
       - ${DATA}/Downloads:/downloads
       - ${DATA}/Downloads/torrents:/watch
     ports:
