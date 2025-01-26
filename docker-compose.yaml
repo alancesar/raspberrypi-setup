@@ -46,7 +46,7 @@ services:
       - "homepage.group=Tools"
       - "homepage.name=pgAdmin Home"
       - "homepage.icon=si-postgresql"
-      - "homepage.href=http://raspberrypi.local:8081"
+      - "homepage.href=http://raspberrypi.local:8082"
       - "homepage.description=The most popular and feature-rich Open Source administration and development platform for PostgreSQL"
 
   # RabbitMQ
