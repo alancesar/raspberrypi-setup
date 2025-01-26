@@ -1,81 +1,83 @@
 services:
   # Homepage
   homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
-    hostname: homepage
+    image: "ghcr.io/gethomepage/homepage:latest"
+    container_name: "homepage"
+    hostname: "homepage"
     ports:
       - "80:3000"
     volumes:
-      - ${APPS}/homepage/config:/app/config
-      - ${DATA}:/data:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
+      - "${APPS}/homepage/config:/app/config"
+      - "${DATA}:/data:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: "unless-stopped"
 
   # PostgreSQL
   postgres:
-    image: postgres:17.2
-    container_name: postgres
-    hostname: postgres
+    image: "postgres:17.2"
+    container_name: "postgres"
+    hostname: "postgres"
     environment:
-      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_PASSWORD: "${PASSWORD}"
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - "postgres_data:/var/lib/postgresql/data"
     networks:
-      - postgres_network
-    restart: unless-stopped
+      - "postgres_network"
+    restart: "unless-stopped"
 
   # pgAdmin
   pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    hostname: pgadmin
+    image: "dpage/pgadmin4"
+    container_name: "pgadmin"
+    hostname: "pgadmin"
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${USERNAME}@postgres.com
-      PGADMIN_DEFAULT_PASSWORD: ${PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: "${USERNAME}@postgres.com"
+      PGADMIN_DEFAULT_PASSWORD: "${PASSWORD}"
     ports:
-      - "8081:80"
+      - "8082:80"
     networks:
-      - postgres_network
-    restart: unless-stopped
+      - "postgres_network"
+    volumes:
+      - "pgadmin_data:/var/lib/pgadmin"
+    restart: "unless-stopped"
     labels:
-      - homepage.group=Tools
-      - homepage.name=pgAdmin Home
-      - homepage.icon=si-postgresql
-      - homepage.href=http://raspberrypi.local:8081
-      - homepage.description=The most popular and feature-rich Open Source administration and development platform for PostgreSQL
+      - "homepage.group=Tools"
+      - "homepage.name=pgAdmin Home"
+      - "homepage.icon=si-postgresql"
+      - "homepage.href=http://raspberrypi.local:8081"
+      - "homepage.description=The most popular and feature-rich Open Source administration and development platform for PostgreSQL"
 
   # RabbitMQ
   rabbitmq:
-    image: rabbitmq:4.0-management
-    container_name: rabbitmq
-    hostname: rabbitmq
+    image: "rabbitmq:4.0-management"
+    container_name: "rabbitmq"
+    hostname: "rabbitmq"
     environment:
-      RABBITMQ_DEFAULT_USER: ${USERNAME}
-      RABBITMQ_DEFAULT_PASS: ${PASSWORD}
-      RABBITMQ_DEFAULT_VHOST: /
+      RABBITMQ_DEFAULT_USER: "${USERNAME}"
+      RABBITMQ_DEFAULT_PASS: "${PASSWORD}"
+      RABBITMQ_DEFAULT_VHOST: "/"
     ports:
       - "15672:15672"
       - "5672:5672"
-    restart: unless-stopped
+    restart: "unless-stopped"
     labels:
-      - homepage.group=Tools
-      - homepage.name=RabbitMQ
-      - homepage.icon=si-rabbitmq
-      - homepage.href=http://raspberrypi.local:15672
-      - homepage.description=Reliable and mature messaging and streaming broker
+      - "homepage.group=Tools"
+      - "homepage.name=RabbitMQ"
+      - "homepage.icon=si-rabbitmq"
+      - "homepage.href=http://raspberrypi.local:15672"
+      - "homepage.description=Reliable and mature messaging and streaming broker"
 
   # AdGuard Home
   adguard:
-    image: adguard/adguardhome
-    container_name: adguard
-    hostname: adguard
+    image: "adguard/adguardhome"
+    container_name: "adguard"
+    hostname: "adguard"
     ports:
       - "53:53/tcp"
       - "53:53/udp"
-      - "8080:80/tcp"
+      - "8081:80/tcp"
       - "3000:3000/tcp"
       - "853:853/tcp"
       - "784:784/udp"
@@ -84,21 +86,21 @@ services:
       - "5443:5443/tcp"
       - "5443:5443/udp"
     volumes:
-      - ${APPS}/adguardhome/work:/opt/adguardhome/work
-      - ${APPS}/adguardhome/conf:/opt/adguardhome/conf
-    restart: unless-stopped
+      - "${APPS}/adguardhome/work:/opt/adguardhome/work"
+      - "${APPS}/adguardhome/conf:/opt/adguardhome/conf"
+    restart: "unless-stopped"
     labels:
-      - homepage.group=Tools
-      - homepage.name=AdGuard Home
-      - homepage.icon=si-adguard
-      - homepage.href=http://raspberrypi.local:8080
-      - homepage.description=AdGuard eliminates ads, tracking, and malware
+      - "homepage.group=Tools"
+      - "homepage.name=AdGuard Home"
+      - "homepage.icon=si-adguard"
+      - "homepage.href=http://raspberrypi.local:8081"
+      - "homepage.description=AdGuard eliminates ads, tracking, and malware"
 
   # Plex
   plex:
-    image: lscr.io/linuxserver/plex:latest
-    container_name: plex
-    hostname: plex
+    image: "lscr.io/linuxserver/plex:latest"
+    container_name: "plex"
+    hostname: "plex"
     ports:
       - "32400:32400"
       - "1900:1900/udp"
@@ -109,47 +111,48 @@ services:
       - "32414:32414/udp"
       - "32469:32469"
     environment:
-      - TZ=America/Sao_Paulo
-      - VERSION=docker
+      - "TZ=America/Sao_Paulo"
+      - "VERSION=docker"
     volumes:
-      - ${APPS}/plex/library:/config
-      - ${DATA}/Media:/media:ro
-    restart: unless-stopped
+      - "${APPS}/plex/library:/config"
+      - "${DATA}/Media:/media:ro"
+    restart: "unless-stopped"
     labels:
-      - homepage.group=Media
-      - homepage.name=Plex
-      - homepage.icon=si-plex
-      - homepage.href=http://raspberrypi.local:32400/web/index.html
-      - homepage.description=Plex enables streaming your content anywhere
+      - "homepage.group=Media"
+      - "homepage.name=Plex"
+      - "homepage.icon=si-plex"
+      - "homepage.href=http://raspberrypi.local:32400/web/index.html"
+      - "homepage.description=Plex enables streaming your content anywhere"
 
   # Transmission
   transmission:
-    image: lscr.io/linuxserver/transmission:latest
-    container_name: transmission
-    hostname: transmission
+    image: "lscr.io/linuxserver/transmission:latest"
+    container_name: "transmission"
+    hostname: "transmission"
     environment:
-      - TZ=America/Sao_Paulo
-      - USER=${USERNAME}
-      - PASS=${PASSWORD}
+      - "TZ=America/Sao_Paulo"
+      - "USER=${USERNAME}"
+      - "PASS=${PASSWORD}"
     ports:
       - "9091:9091"
       - "51413:51413"
       - "51413:51413/udp"
     volumes:
-      - ${APPS}/transmission/config:/config
-      - ${DATA}/Downloads:/downloads
-      - ${DATA}/Downloads/torrents:/watch
-    restart: unless-stopped
+      - "${APPS}/transmission/config:/config"
+      - "${DATA}/Downloads:/downloads"
+      - "${DATA}/Downloads/torrents:/watch"
+    restart: "unless-stopped"
     labels:
-      - homepage.group=Media
-      - homepage.name=Transmission
-      - homepage.icon=si-transmission
-      - homepage.href=http://raspberrypi.local:9091
-      - homepage.description=Fast, easy, and free BitTorrent client
+      - "homepage.group=Media"
+      - "homepage.name=Transmission"
+      - "homepage.icon=si-transmission"
+      - "homepage.href=http://raspberrypi.local:9091"
+      - "homepage.description=Fast, easy, and free BitTorrent client"
 
 volumes:
   postgres_data:
+  pgadmin_data:
 
 networks:
   postgres_network:
-    driver: bridge
+    driver: "bridge"
