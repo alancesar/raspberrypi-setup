@@ -14,11 +14,25 @@ Run the OMV installation script:
 wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
 ```
 
+## Installing Tailscale
+Run the command below:
+
+```shelll
+curl -fsSL https://tailscale.com/install.sh | sh
+```
+
 ## Installing Docker
-Read more about [here](https://github.com/docker/docker-install).
+Run the command bellow to execute the one-line installer. Read more about [here](https://github.com/docker/docker-install).
 
 ```shell
 curl -sSL https://get.docker.com/ | sh
+```
+
+Add your user to `docker` group:
+
+```shell
+sudo groupadd docker
+sudo usermod -aG docker $USER
 ```
 
 ## Running Portainer
