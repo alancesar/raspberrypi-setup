@@ -76,4 +76,4 @@ The environment contains:
 - [Transmission](https://transmissionbt.com/): A BitTorrent client. It uses the [linuxserver.io](https://hub.docker.com/r/linuxserver/transmission) image.
 
 # Running
-Access the home at http://<<raspberrypi-address>>
+Access the homepage at `http://<<raspberrypi-address>>`.
