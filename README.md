@@ -21,6 +21,11 @@ Run the command below:
 curl -fsSL https://tailscale.com/install.sh | sh
 ```
 
+Start Tailscale with the flag `--accept-dns=false` to enbale DNS filter from AdGuard Home and follow the remaining [setup](https://tailscale.com/kb/1114/pi-hole#step-3-set-your-raspberry-pi-as-your-dns-server).
+```shell
+sudo tailscale up --accept-dns=false
+```
+
 ## Installing Docker
 Run the command below to execute the one-line installer. Read more about [here](https://github.com/docker/docker-install).
 
