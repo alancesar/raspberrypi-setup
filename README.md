@@ -60,8 +60,9 @@ The `docker-compose.yaml` contains the setup for all the services. Just fill the
 
 - `APPS`: the path for applications file and configurations;
 - `DATA`: the downloads and media root path;
-- `USERNAME`: default username for services;
-- `PASSWORD`: default password for services.
+- `USER`: default username for services;
+- `PASS`: default password for services;
+- `HOST`: host for access the services via reverse proxy.
 
 Example:
 ```plaintext
