@@ -56,7 +56,7 @@ docker run --name portainer \
 ```
 
 # Setup Portainer
-The `docker-compose.yaml` contains the setup for all the services. Just fill the `.env` with this data:
+The `docker-compose.yaml` contains the setup for all the services. Just fill the `portainer/.env` with this data:
 
 - `APPS`: the path for applications file and configurations;
 - `DATA`: the downloads and media root path;
