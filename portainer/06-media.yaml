@@ -1,0 +1,56 @@
+services:
+  # Plex
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    hostname: plex
+    ports:
+      - 32400:32400
+      - 1900:1900/udp
+      - 8324:8324
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+      - 32469:32469
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+      - VERSION=docker
+    volumes:
+      - ${APPS}/plex/library:/config
+      - ${DATA}:/media:ro
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - homepage.group=Media
+      - homepage.name=Plex
+      - homepage.icon=si-plex
+      - homepage.href=http://plex.${HOST}/web/index.html
+      - homepage.description=Plex enables streaming your content anywhere
+      - traefik.http.services.plex.loadBalancer.server.port=32400
+
+  # Tautulli
+  tautulli:
+    image: ghcr.io/tautulli/tautulli
+    container_name: tautulli
+    hostname: tautulli
+    restart: unless-stopped
+    volumes:
+      - ${APPS}/tautulli/config:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+    networks:
+      - proxy_network
+    ports:
+      - 8181:8181
+
+networks:
+  proxy_network:
+    driver: bridge
+    external:
+      name: proxy_network

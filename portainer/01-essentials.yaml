@@ -1,0 +1,61 @@
+services:
+  # AdGuard Home
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguard
+    hostname: adguard
+    ports:
+      - 8083:80
+      - 53:53/tcp
+      - 53:53/udp
+      - 3000:3000/tcp
+      - 853:853/tcp
+      - 784:784/udp
+      - 853:853/udp
+      - 8853:8853/udp
+      - 5443:5443/tcp
+      - 5443:5443/udp
+    volumes:
+      - ${APPS}/adguardhome/work:/opt/adguardhome/work
+      - ${APPS}/adguardhome/conf:/opt/adguardhome/conf
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=AdGuard Home
+      - homepage.icon=si-adguard
+      - homepage.href=http://adguard.${HOST}
+      - homepage.description=AdGuard eliminates ads, tracking, and malware
+      - homepage.widget.type=adguard
+      - homepage.widget.url=http://adguard.${HOST}
+      - homepage.widget.username=${USER}
+      - homepage.widget.password=${PASS}
+      - traefik.http.services.adguard.loadBalancer.server.port=80
+
+  #MySpeed
+  myspeed:
+    image: germannewsmaker/myspeed:latest
+    container_name: myspeed
+    hostname: myspeed
+    ports:
+      - 5216:5216
+    volumes:
+      - ${APPS}/myspeed:/myspeed/data
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=MySpeed
+      - homepage.icon=si-speedtest
+      - homepage.description=A speed test analysis software that records your internet speed
+      - homepage.href=http://myspeed.${HOST}
+      - homepage.widget.type=myspeed
+      - homepage.widget.url=http://myspeed.${HOST}
+      - traefik.http.services.myspeed.loadBalancer.server.port=5216
+
+networks:
+  proxy_network:
+    driver: bridge
+    name: proxy_network

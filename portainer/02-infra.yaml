@@ -1,0 +1,29 @@
+services:
+  # Traefik
+  traefik:
+    image: traefik:v3.3
+    container_name: traefik
+    hostname: traefik
+    ports:
+      - 8090:8080
+      - 80:80
+    command: --api.insecure=true --providers.docker --providers.docker.defaultRule='Host(`{{ index .ContainerName }}.${HOST}`)'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=Traefik
+      - homepage.icon=si-traefikproxy
+      - homepage.href=http://traefik.${HOST}
+      - homepage.description=An open source Edge Router, auto-discovers configurations and supports major orchestrators.
+      - homepage.widget.type=traefik
+      - homepage.widget.url=http://traefik.${HOST}
+      - traefik.http.services.traefik.loadBalancer.server.port=8080
+
+networks:
+  proxy_network:
+    driver: bridge
+    name: proxy_network

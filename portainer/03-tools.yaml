@@ -1,0 +1,62 @@
+services:
+  #MySpeed
+  myspeed:
+    image: germannewsmaker/myspeed:latest
+    container_name: myspeed
+    hostname: myspeed
+    ports:
+      - 5216:5216
+    volumes:
+      - ${APPS}/myspeed:/myspeed/data
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=MySpeed
+      - homepage.icon=si-speedtest
+      - homepage.description=A speed test analysis software that records your internet speed
+      - homepage.href=http://myspeed.${HOST}
+      - homepage.widget.type=myspeed
+      - homepage.widget.url=http://myspeed.${HOST}
+      - traefik.http.services.myspeed.loadBalancer.server.port=5216
+
+    # Transmission
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    hostname: transmission
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    networks:
+      - proxy_network
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+      - USER=${USER}
+      - PASS=${PASS}
+    volumes:
+      - ${APPS}/transmission/config:/config
+      - ${DATA}/Media/Downloads:/downloads
+      - ${DATA}/Media/Torrents:/watch
+    restart: unless-stopped
+    labels:
+      - homepage.group=Media
+      - homepage.name=Transmission
+      - homepage.icon=si-transmission
+      - homepage.href=http://transmission.${HOST}
+      - homepage.description=Fast, easy, and free BitTorrent client
+      - homepage.widget.type=transmission
+      - homepage.widget.url=http://transmission.${HOST}
+      - homepage.widget.username=${USER}
+      - homepage.widget.password=${PASS}
+      - traefik.http.services.transmission.loadBalancer.server.port=9091
+
+networks:
+  proxy_network:
+    driver: bridge
+    external:
+      name: proxy_network

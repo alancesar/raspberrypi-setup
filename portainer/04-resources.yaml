@@ -1,0 +1,71 @@
+services:
+  # PostgreSQL
+  postgres:
+    image: postgres:17.2
+    container_name: postgres
+    hostname: postgres
+    environment:
+      POSTGRES_PASSWORD: ${PASS}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - traefik.http.services.postgres.loadBalancer.server.port=5432
+
+  # pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    hostname: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${USER}@postgres.com
+      PGADMIN_DEFAULT_PASSWORD: ${PASS}
+    ports:
+      - 8082:80
+    networks:
+      - proxy_network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=pgAdmin Home
+      - homepage.icon=si-postgresql
+      - homepage.href=http://pgadmin.${HOST}
+      - homepage.description=The most popular and feature-rich Open Source administration and development platform for PostgreSQL
+      - traefik.http.services.pgadmin.loadBalancer.server.port=80
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${USER}
+      RABBITMQ_DEFAULT_PASS: ${PASS}
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - 5672:5672
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - homepage.group=Tools
+      - homepage.name=RabbitMQ
+      - homepage.icon=si-rabbitmq
+      - homepage.href=http://rabbitmq.${HOST}
+      - homepage.description=Reliable and mature messaging and streaming broker
+      - traefik.http.services.rabbitmq.loadBalancer.server.port=15672
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  proxy_network:
+    driver: bridge
+    name: proxy_network
