@@ -35,6 +35,24 @@ services:
       - proxy_network
     restart: unless-stopped
 
+  # Lidarr
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - TZ=America/Sao_Paulo
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${APPS}/lidarr/config:/config
+      - ${DATA}/Media/Music:/music
+      - ${DATA}/Downloads:/downloads
+    ports:
+      - 8686:8686
+    networks:
+      - proxy_network
+    restart: unless-stopped
+
   # Prowlarr
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
