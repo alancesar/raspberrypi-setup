@@ -9,7 +9,8 @@ services:
       - PGID=1000
     volumes:
       - ${APPS}/sonarr/config:/config
-      - ${DATA}/Media:/storage
+      - ${DATA}/Media/TV Shows:/tv
+      - ${DATA}/Downloads:/downloads
     ports:
       - 8989:8989
     networks:
