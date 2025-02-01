@@ -17,6 +17,24 @@ services:
       - proxy_network
     restart: unless-stopped
 
+  # Radarr
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - TZ=America/Sao_Paulo
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${APPS}/radarr/config:/config
+      - ${DATA}/Media/Movies:/movies
+      - ${DATA}/Downloads:/downloads
+    ports:
+      - 7878:7878
+    networks:
+      - proxy_network
+    restart: unless-stopped
+
   # Prowlarr
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -29,6 +47,24 @@ services:
       - ${APPS}/prowlarr:/config
     ports:
       - 9696:9696
+    restart: unless-stopped
+    networks:
+      - proxy_network
+
+  # Bazarr
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+    volumes:
+      - ${APPS}/bazarr/config:/config
+      - ${DATA}/Media/Movies:/movies
+      - ${DATA}/Media/TV Shows:/tv
+    ports:
+      - 6767:6767
     restart: unless-stopped
     networks:
       - proxy_network
