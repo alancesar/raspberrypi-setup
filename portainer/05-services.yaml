@@ -16,6 +16,16 @@ services:
     networks:
       - proxy_network
     restart: unless-stopped
+    labels:
+      - homepage.group=Services
+      - homepage.name=Sonarr
+      - homepage.icon=si-sonarr
+      - homepage.href=http://sonarr.${HOST}
+      - homepage.description=An internet PVR for Usenet and Torrents.
+      - homepage.widget.type=sonarr
+      - homepage.widget.url=http://sonarr.${HOST}
+      - homepage.widget.key=${SONARR_KEY}
+      - traefik.http.services.sonarr.loadBalancer.server.port=8989
 
   # Radarr
   radarr:
@@ -34,6 +44,16 @@ services:
     networks:
       - proxy_network
     restart: unless-stopped
+    labels:
+      - homepage.group=Services
+      - homepage.name=Radarr
+      - homepage.icon=si-radarr
+      - homepage.href=http://radarr.${HOST}
+      - homepage.description=See all your upcoming movies in one convenient location.
+      - homepage.widget.type=radarr
+      - homepage.widget.url=http://radarr.${HOST}
+      - homepage.widget.key=${RADARR_KEY}
+      - traefik.http.services.radarr.loadBalancer.server.port=7878
 
   # Lidarr
   lidarr:
@@ -52,6 +72,16 @@ services:
     networks:
       - proxy_network
     restart: unless-stopped
+    labels:
+      - homepage.group=Services
+      - homepage.name=Lidarr
+      - homepage.icon=si-lidarr
+      - homepage.href=http://lidarr.${HOST}
+      - homepage.description=A music collection manager for Usenet and BitTorrent users.
+      - homepage.widget.type=lidarr
+      - homepage.widget.url=http://lidarr.${HOST}
+      - homepage.widget.key=${LIDARR_KEY}
+      - traefik.http.services.lidarr.loadBalancer.server.port=8686
 
   # Prowlarr
   prowlarr:
@@ -68,6 +98,16 @@ services:
     restart: unless-stopped
     networks:
       - proxy_network
+    labels:
+      - homepage.group=Services
+      - homepage.name=Prowlarr
+      - homepage.icon=si-prowlarr
+      - homepage.href=http://prowlarr.${HOST}
+      - homepage.description=The Ultimate Indexer Manager.
+      - homepage.widget.type=prowlarr
+      - homepage.widget.url=http://prowlarr.${HOST}
+      - homepage.widget.key=${PROWLARR_KEY}
+      - traefik.http.services.prowlarr.loadBalancer.server.port=9696
 
   # Bazarr
   bazarr:
@@ -86,6 +126,16 @@ services:
     restart: unless-stopped
     networks:
       - proxy_network
+    labels:
+      - homepage.group=Services
+      - homepage.name=Bazarr
+      - homepage.icon=si-bazarr
+      - homepage.href=http://bazarr.${HOST}
+      - homepage.description=A companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
+      - homepage.widget.type=bazarr
+      - homepage.widget.url=http://bazarr.${HOST}
+      - homepage.widget.key=${BAZARR_KEY}
+      - traefik.http.services.bazarr.loadBalancer.server.port=6767
 
 networks:
   proxy_network:
