@@ -20,7 +20,7 @@ services:
       - VERSION=docker
     volumes:
       - ${APPS}/plex/library:/config
-      - ${DATA}:/media:ro
+      - ${DATA}/Media:/media:ro
     networks:
       - proxy_network
     restart: unless-stopped
