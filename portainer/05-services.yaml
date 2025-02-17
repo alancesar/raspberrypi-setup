@@ -6,20 +6,18 @@ services:
     environment:
       - TZ=America/Sao_Paulo
       - PUID=1000
-      - PGID=1000
+      - PGID=100
     volumes:
       - ${APPS}/sonarr/config:/config
       - ${DATA}/Media/TV Shows:/tv
       - ${DATA}/Downloads:/downloads
-    ports:
-      - 8989:8989
     networks:
       - proxy_network
     restart: unless-stopped
     labels:
       - homepage.group=Services
       - homepage.name=Sonarr
-      - homepage.icon=si-sonarr
+      - homepage.icon=sh-sonarr
       - homepage.href=http://sonarr.${HOST}
       - homepage.description=An internet PVR for Usenet and Torrents.
       - homepage.widget.type=sonarr
@@ -34,54 +32,24 @@ services:
     environment:
       - TZ=America/Sao_Paulo
       - PUID=1000
-      - PGID=1000
+      - PGID=100
     volumes:
       - ${APPS}/radarr/config:/config
       - ${DATA}/Media/Movies:/movies
       - ${DATA}/Downloads:/downloads
-    ports:
-      - 7878:7878
     networks:
       - proxy_network
     restart: unless-stopped
     labels:
       - homepage.group=Services
       - homepage.name=Radarr
-      - homepage.icon=si-radarr
+      - homepage.icon=sh-radarr
       - homepage.href=http://radarr.${HOST}
       - homepage.description=See all your upcoming movies in one convenient location.
       - homepage.widget.type=radarr
       - homepage.widget.url=http://radarr.${HOST}
       - homepage.widget.key=${RADARR_KEY}
       - traefik.http.services.radarr.loadBalancer.server.port=7878
-
-  # Lidarr
-  lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
-    container_name: lidarr
-    environment:
-      - TZ=America/Sao_Paulo
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - ${APPS}/lidarr/config:/config
-      - ${DATA}/Media/Music:/music
-      - ${DATA}/Downloads:/downloads
-    ports:
-      - 8686:8686
-    networks:
-      - proxy_network
-    restart: unless-stopped
-    labels:
-      - homepage.group=Services
-      - homepage.name=Lidarr
-      - homepage.icon=si-lidarr
-      - homepage.href=http://lidarr.${HOST}
-      - homepage.description=A music collection manager for Usenet and BitTorrent users.
-      - homepage.widget.type=lidarr
-      - homepage.widget.url=http://lidarr.${HOST}
-      - homepage.widget.key=${LIDARR_KEY}
-      - traefik.http.services.lidarr.loadBalancer.server.port=8686
 
   # Prowlarr
   prowlarr:
@@ -90,18 +58,16 @@ services:
     environment:
       - TZ=America/Sao_Paulo
       - PUID=1000
-      - PGID=1000
+      - PGID=100
     volumes:
       - ${APPS}/prowlarr:/config
-    ports:
-      - 9696:9696
     restart: unless-stopped
     networks:
       - proxy_network
     labels:
       - homepage.group=Services
       - homepage.name=Prowlarr
-      - homepage.icon=si-prowlarr
+      - homepage.icon=sh-prowlarr
       - homepage.href=http://prowlarr.${HOST}
       - homepage.description=The Ultimate Indexer Manager.
       - homepage.widget.type=prowlarr
@@ -115,21 +81,19 @@ services:
     container_name: bazarr
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=100
       - TZ=America/Sao_Paulo
     volumes:
       - ${APPS}/bazarr/config:/config
       - ${DATA}/Media/Movies:/movies
       - ${DATA}/Media/TV Shows:/tv
-    ports:
-      - 6767:6767
     restart: unless-stopped
     networks:
       - proxy_network
     labels:
       - homepage.group=Services
       - homepage.name=Bazarr
-      - homepage.icon=si-bazarr
+      - homepage.icon=sh-bazarr
       - homepage.href=http://bazarr.${HOST}
       - homepage.description=A companion application to Sonarr and Radarr that manages and downloads subtitles based on your requirements.
       - homepage.widget.type=bazarr
@@ -140,4 +104,5 @@ services:
 networks:
   proxy_network:
     driver: bridge
-    name: proxy_network
+    external:
+      name: proxy_network

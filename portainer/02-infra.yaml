@@ -26,4 +26,5 @@ services:
 networks:
   proxy_network:
     driver: bridge
-    name: proxy_network
+    external:
+      name: proxy_network

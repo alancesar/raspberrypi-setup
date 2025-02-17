@@ -1,52 +1,29 @@
 services:
-  #MySpeed
-  myspeed:
-    image: germannewsmaker/myspeed:latest
-    container_name: myspeed
-    hostname: myspeed
-    ports:
-      - 5216:5216
-    volumes:
-      - ${APPS}/myspeed:/myspeed/data
-    networks:
-      - proxy_network
-    restart: unless-stopped
-    labels:
-      - homepage.group=Tools
-      - homepage.name=MySpeed
-      - homepage.icon=si-speedtest
-      - homepage.description=A speed test analysis software that records your internet speed
-      - homepage.href=http://myspeed.${HOST}
-      - homepage.widget.type=myspeed
-      - homepage.widget.url=http://myspeed.${HOST}
-      - traefik.http.services.myspeed.loadBalancer.server.port=5216
-
-    # Transmission
+  # Transmission
   transmission:
     image: lscr.io/linuxserver/transmission:latest
     container_name: transmission
     hostname: transmission
     ports:
-      - 9091:9091
       - 51413:51413
       - 51413:51413/udp
     networks:
       - proxy_network
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=100
       - TZ=America/Sao_Paulo
       - USER=${USER}
       - PASS=${PASS}
     volumes:
       - ${APPS}/transmission/config:/config
-      - ${DATA}/Media/Downloads:/downloads
-      - ${DATA}/Media/Torrents:/watch
+      - ${DATA}/Downloads:/downloads
+      - ${DATA}/Torrents:/watch
     restart: unless-stopped
     labels:
       - homepage.group=Media
       - homepage.name=Transmission
-      - homepage.icon=si-transmission
+      - homepage.icon=sh-transmission
       - homepage.href=http://transmission.${HOST}
       - homepage.description=Fast, easy, and free BitTorrent client
       - homepage.widget.type=transmission
@@ -54,6 +31,32 @@ services:
       - homepage.widget.username=${USER}
       - homepage.widget.password=${PASS}
       - traefik.http.services.transmission.loadBalancer.server.port=9091
+
+  # Calibre Web
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=America/Sao_Paulo
+    volumes:
+      - ${APPS}/calibre-web/data:/config
+      - ${DATA}/Ebooks:/books
+    restart: unless-stopped
+    networks:
+      - proxy_network
+    labels:
+      - homepage.group=Tools
+      - homepage.name=Calibre Web
+      - homepage.icon=sh-calibre-web
+      - homepage.href=http://calibre-web.${HOST}
+      - homepage.description=A web app that offers a clean and intuitive interface for browsing, reading, and downloading eBooks using a valid Calibre database.
+      - homepage.widget.type=calibreweb
+      - homepage.widget.url=http://calibre-web.${HOST}
+      - homepage.widget.username=admin
+      - homepage.widget.password=admin123
+      - traefik.http.services.calibre-web.loadBalancer.server.port=8083
 
 networks:
   proxy_network:

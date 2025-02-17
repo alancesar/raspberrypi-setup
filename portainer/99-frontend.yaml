@@ -4,14 +4,13 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     hostname: homepage
-    ports:
-      - 8081:80
     volumes:
       - ${APPS}/homepage/config:/app/config
       - ${DATA}:/data:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - HOMEPAGE_VAR_OMV_HOST=${HOST}
+      - HOMEPAGE_VAR_OMV_ADDR=${ADDR}
       - HOMEPAGE_VAR_OMV_PASS=${PASS}
     networks:
       - proxy_network
