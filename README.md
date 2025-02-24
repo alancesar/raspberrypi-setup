@@ -52,7 +52,7 @@ docker run --name portainer \
     --restart=always \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v portainer_data:/data \
-    -d portainer/portainer-ce:2.21.5
+    -d portainer/portainer-ce:latest
 ```
 
 # Setup Portainer
